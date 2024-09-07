@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda de Videojuegos</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; }
+        h1 { color: #333; }
+        #productList { display: flex; flex-wrap: wrap; }
+        .product { border: 1px solid #ddd; margin: 10px; padding: 10px; width: 200px; }
+        #cart { margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Bienvenido a la Tienda de Videojuegos</h1>
+    <div id="productList"></div>
+    <div id="cart">
+        <h2>Presiona para ver las categorias</h2>
+        <ul id="cartItems"></ul>
+        <a href="http://localhost:3000/api/categories"> <button onclick="createOrder()">Ver Categorias</button></a>
+    </div>
+
+    <script>
+        document.getElementById('verCategorias').addEventListener('click', function() {
+  fetch('/api/categories')
+    .then(response => response.json())
+    .then(categories => {
+      const categoriasDiv = document.getElementById('categorias');
+      categoriasDiv.innerHTML = '<h2>Categorías:</h2>';
+      categories.forEach(category => {
+        categoriasDiv.innerHTML += `<p>${category.name}</p>`;
+      });
+    })
+    .catch(error => console.error('Error:', error));
+});
+    </script>
+</body>
+</html>

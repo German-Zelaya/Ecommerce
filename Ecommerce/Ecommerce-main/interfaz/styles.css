@@ -1,0 +1,70 @@
+/* Estilos generales */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #1c1c1c; /* Fondo oscuro */
+  color: #f1f1f1; /* Color de texto claro */
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+h1 {
+  color: #ffc107; /* Tono amarillo */
+  text-align: center;
+}
+
+/* Contenedor del formulario */
+form {
+  background-color: #333; /* Fondo gris oscuro */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Sombra */
+  max-width: 400px;
+  width: 100%;
+}
+
+/* Estilos para los labels */
+form label {
+  color: #ffc107; /* Color amarillo para los textos */
+  margin-bottom: 5px;
+  display: block;
+}
+
+/* Estilos para los inputs */
+form input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #555;
+  border-radius: 5px;
+  background-color: #222; /* Fondo oscuro en los inputs */
+  color: #fff; /* Texto blanco en los inputs */
+}
+
+/* Estilo para el botón */
+form button {
+  background-color: #ffc107; /* Fondo amarillo */
+  color: #1c1c1c; /* Texto oscuro */
+  border: none;
+  padding: 10px;
+  width: 100%;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+form button:hover {
+  background-color: #e0a800; /* Un amarillo más oscuro al pasar el mouse */
+}
+
+/* Centrar el contenido */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+}
