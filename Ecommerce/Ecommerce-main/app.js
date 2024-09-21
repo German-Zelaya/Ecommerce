@@ -2,6 +2,7 @@ const express = require("express");
 const path = require("path");
 const UserController = require("./interfaz/userController");
 const GameStoreController = require("./interfaz/gameStoreController");
+const productController = require("./interfaz/productController");
 
 const app = express();
 
@@ -36,13 +37,32 @@ app.get("/store", authenticateUser, (req, res) => {
   res.render("store");
 });
 
+app.get("/createProduct", (req, res) => {
+  res.render("createProduct");
+});
+
+app.get("/editProduct", (req, res) => {
+  res.render("editProduct");
+});
+
+app.get("/deleteProduct", (req, res) => {
+  res.render("deleteProduct");
+});
+
 // Rutas de la API protegidas
-app.get("/api/products", authenticateUser, GameStoreController.getProducts);
 app.post("/api/cart/add", authenticateUser, GameStoreController.addToCart);
 app.post("/api/orders", authenticateUser, GameStoreController.createOrder);
-app.get("/api/orders/:orderId", authenticateUser, GameStoreController.getOrderDetails);
-app.get('/api/categories', GameStoreController.getCategories);
-app.post('/api/categories', GameStoreController.createCategory);
+app.get(
+  "/api/orders/:orderId",
+  authenticateUser,
+  GameStoreController.getOrderDetails
+);
+app.get("/api/categories", GameStoreController.getCategories);
+app.post("/api/categories", GameStoreController.createCategory);
+app.get("/api/products", productController.read);
+app.post("/api/createproduct", productController.create);
+app.post("/api/editproduct", productController.update);
+app.post("/api/deleteproduct", productController.delete);
 
 // Nuevas rutas para interactuar con usuarios
 app.post("/api/users", UserController.createUser); // Ruta para crear un usuario

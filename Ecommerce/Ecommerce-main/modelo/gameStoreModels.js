@@ -21,20 +21,6 @@ db.serialize(() => {
     rol TEXT DEFAULT 'user'
   )`);
 
-  // Tabla de productos (videojuegos)
-  db.run(`CREATE TABLE IF NOT EXISTS products (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    code TEXT NOT NULL UNIQUE,
-    name TEXT NOT NULL,
-    price REAL NOT NULL,
-    stock INTEGER NOT NULL,
-    description TEXT,
-    updateAt DATETIME,
-    thumbnail TEXT,
-    image1 TEXT,
-    image2 TEXT
-  )`);
-
   // Tabla de carritos
   db.run(`CREATE TABLE IF NOT EXISTS carts (
     id INTEGER PRIMARY KEY AUTOINCREMENT,

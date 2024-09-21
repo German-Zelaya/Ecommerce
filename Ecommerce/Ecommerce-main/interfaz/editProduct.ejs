@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Iniciar sesión</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <style>
+      body {
+        background-color: #000; /* Fondo negro */
+        color: #fff; /* Texto blanco */
+      }
+      .container {
+        margin-top: 5%;
+        max-width: 400px;
+        background-color: #333; /* Fondo del formulario */
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+      h1 {
+        color: #f1c40f; /* Amarillo para el encabezado */
+      }
+      .btn-primary {
+        background-color: #f1c40f; /* Botón amarillo */
+        border-color: #f1c40f; /* Borde del botón amarillo */
+      }
+      .btn-primary:hover {
+        background-color: #e1b700; /* Botón amarillo más oscuro al pasar el ratón */
+        border-color: #e1b700; /* Borde del botón amarillo más oscuro */
+      }
+      .form-control {
+        border-color: #f1c40f; /* Bordes de los campos de entrada en amarillo */
+      }
+      .form-control:focus {
+        border-color: #f39c12; /* Borde amarillo más oscuro cuando el campo está enfocado */
+        box-shadow: 0 0 0 0.2rem rgba(243, 156, 18, 0.25); /* Sombra del campo de entrada enfocado */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <form action="/api/editproduct" method="POST">
+        <h1 class="text-center">Crear producto</h1>
+        <div class="form-group">
+            <label for="id">ID:</label>
+            <input
+              type="number"
+              id="id"
+              name="id"
+              class="form-control"
+              required
+            />
+          </div>
+        <div class="form-group">
+          <label for="code">Codigo:</label>
+          <input
+            type="text"
+            id="code"
+            name="code"
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="name">Nombre:</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="price">Precio:</label>
+          <input
+            type="number"
+            id="price"
+            name="price"
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="stock">Stock:</label>
+          <input
+            type="number"
+            id="stock"
+            name="stock"
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="description">Descripción:</label>
+          <textarea
+            id="description"
+            name="description"
+            class="form-control"
+            required
+          ></textarea>
+        </div>
+        <div class="form-group">
+          <label for="thumbnail">Miniatura:</label>
+          <input
+            type="text"
+            id="thumbnail"
+            name="thumbnail"
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="image1">Imagen 1:</label>
+          <input
+            type="text"
+            id="image1"
+            name="image1"
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="image2">Imagen 2:</label>
+          <input
+            type="text"
+            id="image2"
+            name="image2"
+            class="form-control"
+            required
+          />
+        <button type="submit" class="btn btn-primary btn-block">
+          Actualizar
+        </button>
+      </form>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </body>
+</html>
