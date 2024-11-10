@@ -19,7 +19,9 @@ db.serialize(() => {
       updateAt DATETIME,
       thumbnail TEXT,
       image1 TEXT,
-      image2 TEXT
+      image2 TEXT,
+      size TEXT,
+      classification TEXT
     )`);
 });
 

@@ -3,8 +3,24 @@ const path = require("path");
 const UserController = require("./interfaz/userController");
 const GameStoreController = require("./interfaz/gameStoreController");
 const productController = require("./interfaz/productController");
+const multer = require("multer");
 
 const app = express();
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads/"); // Carpeta donde se guardarán las imágenes
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(
+      null,
+      file.fieldname + "-" + uniqueSuffix + path.extname(file.originalname)
+    ); // Nombre único para cada imagen
+  },
+});
+
+const upload = multer({ storage: storage });
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "interfaz"));
@@ -12,6 +28,7 @@ app.set("views", path.join(__dirname, "interfaz"));
 app.use(express.static(path.join(__dirname, "interfaz")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use("/uploads", express.static("uploads"));
 
 // Middleware para verificar autenticación
 const authenticateUser = (req, res, next) => {
@@ -25,6 +42,10 @@ const authenticateUser = (req, res, next) => {
   next();
 };
 
+app.get("/", (req, res) => {
+  res.render("index"); // Renderiza la página index.ejs
+});
+
 app.get("/login", (req, res) => {
   res.render("login");
 });
@@ -37,17 +58,20 @@ app.get("/store", authenticateUser, (req, res) => {
   res.render("store");
 });
 
-app.get("/createProduct", (req, res) => {
-  res.render("createProduct");
-});
+app.get("/api/createProduct", productController.form);
 
-app.get("/editProduct", (req, res) => {
-  res.render("editProduct");
-});
+app.get("/api/editProduct/:id", productController.get); // Ruta para editar producto
+app.post(
+  "/api/editProduct/:id",
+  upload.fields([
+    { name: "thumbnail", maxCount: 1 },
+    { name: "image1", maxCount: 1 },
+    { name: "image2", maxCount: 1 },
+  ]),
+  productController.update
+); // Ruta para actualizar el producto
 
-app.get("/deleteProduct", (req, res) => {
-  res.render("deleteProduct");
-});
+app.post("/api/deleteProduct/:id", productController.delete);
 
 // Rutas de la API protegidas
 app.post("/api/cart/add", authenticateUser, GameStoreController.addToCart);
@@ -59,10 +83,16 @@ app.get(
 );
 app.get("/api/categories", GameStoreController.getCategories);
 app.post("/api/categories", GameStoreController.createCategory);
-app.get("/api/products", productController.read);
-app.post("/api/createproduct", productController.create);
-app.post("/api/editproduct", productController.update);
-app.post("/api/deleteproduct", productController.delete);
+app.get("/products", productController.read);
+app.post(
+  "/api/createproduct",
+  upload.fields([
+    { name: "thumbnail", maxCount: 1 },
+    { name: "image1", maxCount: 1 },
+    { name: "image2", maxCount: 1 },
+  ]),
+  productController.create
+);
 
 // Nuevas rutas para interactuar con usuarios
 app.post("/api/users", UserController.createUser); // Ruta para crear un usuario
