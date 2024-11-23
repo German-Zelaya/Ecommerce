@@ -7,6 +7,9 @@ const db = new sqlite3.Database("./db.sqlite", (err) => {
   }
 });
 
+db.run('ALTER TABLE users ADD COLUMN rol INTEGER DEFAULT 0')
+db.run("ALTER TABLE users ADD COLUMN email TEXT DEFAULT ''")
+
 db.close((err) => {
   if (err) {
     console.error("Error al cerrar la conexión:", err.message);
