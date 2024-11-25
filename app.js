@@ -75,14 +75,21 @@ const isAuthenticated = (req, res, next) => {
   res.redirect("/login");
 };
 
+const isAdmin = (req, res, next) => {
+  if (req.session.user && req.session.user.rol === 1) {
+    return next();
+  }
+  res.redirect("/");
+};
+
 // Ruta al index
 app.get("/", isAuthenticated, productController.index);
 // Ruta a las categorias
-app.get("/category/:id", productController.getProductsByCategory);
+app.get("/category/:id", isAuthenticated, productController.getProductsByCategory);
 // Ruta al detalle de un producto
-app.get("/product/:id", productController.product);
+app.get("/product/:id", isAuthenticated, productController.product);
 // Ruta de busqueda
-app.post("/search", productController.search);
+app.post("/search", isAuthenticated, productController.search);
 // Configuracion para la sesion
 app.get("/login", (req, res) => {
   res.render("login", { layout: false });
@@ -117,65 +124,64 @@ app.use((req, res, next) => {
 
 // Rutas para Gestion de Productos
 
-app.get("/products", productController.read); // Tabla de productos
-app.get("/api/createProduct", productController.form); // Formulario Create
-app.get("/api/editProduct/:id", productController.get); // Formulario Update
+app.get("/products", isAuthenticated, isAdmin, productController.read); // Tabla de productos
+app.get("/api/createProduct", isAuthenticated, isAdmin, productController.form); // Formulario Create
+app.get("/api/editProduct/:id", isAuthenticated, isAdmin, productController.get); // Formulario Update
 app.post(
   "/api/editProduct/:id",
+  isAuthenticated, isAdmin,
   upload.fields([
     { name: "thumbnail", maxCount: 1 },
     { name: "image1", maxCount: 1 },
     { name: "image2", maxCount: 1 },
-  ]),
-  productController.update
+  ]), productController.update
 ); // Ruta para actualizar el producto
 app.post(
   "/api/createproduct",
+  isAuthenticated, isAdmin,
   upload.fields([
     { name: "thumbnail", maxCount: 1 },
     { name: "image1", maxCount: 1 },
     { name: "image2", maxCount: 1 },
-  ]),
-  productController.create
+  ]), productController.create
 ); // Ruta para crear el producto
 
-app.post("/api/deleteProduct/:id", productController.delete); // Ruta para borrar el producto
+app.post("/api/deleteProduct/:id", isAuthenticated, isAdmin, productController.delete); // Ruta para borrar el producto
 
 // Rutas para Gestion de Usuarios
 
-app.get("/users", UserController.read);
-app.get("/api/createUser", UserController.form); // Formulario Create
-app.get("/api/editUser/:id", UserController.get); // Formulario Update
-app.post("/api/editUser/:id", UserController.update); // Ruta para actualizar el usuario
-app.post("/api/createUser", UserController.createUser); // Ruta para crear un usuario
-app.post("/api/deleteUser/:id", UserController.delete); // Ruta para borrar el usuario
+app.get("/users", isAuthenticated, isAdmin, UserController.read);
+app.get("/api/createUser", isAuthenticated, isAdmin, UserController.form); // Formulario Create
+app.get("/api/editUser/:id", isAuthenticated, isAdmin, UserController.get); // Formulario Update
+app.post("/api/editUser/:id", isAuthenticated, isAdmin, UserController.update); // Ruta para actualizar el usuario
+app.post("/api/createUser", isAuthenticated, isAdmin, UserController.createUser); // Ruta para crear un usuario
+app.post("/api/deleteUser/:id", isAuthenticated, isAdmin, UserController.delete); // Ruta para borrar el usuario
 
 // Rutas para Gestión de Ordenes
 
-app.get("/orders", GameStoreController.getOrders);
-app.get("/api/createOrder", GameStoreController.getForm);
-app.get("/api/editOrder/:id", GameStoreController.getOrder);
-// app.post("/api/editOrder/:id", GameStoreController.updateOrder);
-app.post("/api/createOrder", GameStoreController.addOrder);
-// app.post("/api/deleteOrder/:id", GameStoreController.deleteOrder);
+app.get("/orders", isAuthenticated, isAdmin, GameStoreController.getOrders);
+app.get("/api/createOrder", isAuthenticated, isAdmin, GameStoreController.getForm);
+app.get("/api/editOrder/:id", isAuthenticated, isAdmin, GameStoreController.getOrder);
+app.post("/api/editOrder/:id", isAuthenticated, isAdmin, GameStoreController.updateOrder);
+app.post("/api/createOrder", isAuthenticated, isAdmin, GameStoreController.addOrder);
+app.post("/api/deleteOrder/:id", isAuthenticated, isAdmin, GameStoreController.deleteOrder);
 
 // Ruta para el carrito de compras
-app.get("/cart", isAuthenticated, GameStoreController.getCart);
-app.post("/cart/add", isAuthenticated, GameStoreController.addToCart);
-app.post("/cart/remove", isAuthenticated, GameStoreController.removeFromCart);
+app.get("/cart", isAuthenticated, isAdmin, GameStoreController.getCart);
+app.post("/cart/add", isAuthenticated, isAdmin, GameStoreController.addToCart);
+app.post("/cart/remove", isAuthenticated, isAdmin, GameStoreController.removeFromCart);
 
 // Ruta para las ordenes
-app.post("/api/order", isAuthenticated, GameStoreController.createOrder);
+app.post("/api/order", isAuthenticated, isAdmin, GameStoreController.createOrder);
 app.get(
   "/notifications/:id",
-  isAuthenticated,
+  isAuthenticated, isAdmin,
   GameStoreController.getOrdersByUserId
 );
 
 // Ruta para generar la factura
-app.get("/Bill/:id", isAuthenticated, GameStoreController.generateBill);
+app.get("/Bill/:id", isAuthenticated, isAdmin, GameStoreController.generateBill);
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
-app.get("/libraty/:id", GameStoreController.getItemsByUserId);

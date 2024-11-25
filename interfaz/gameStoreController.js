@@ -212,6 +212,36 @@ const GameStoreController = {
       });
     });
   },
+  updateOrder: (req, res) => {
+    const { id } = req.params;
+    const { userId, status, dataProducts, quantity } = req.body;
+    const items = dataProducts.map((product, index) => {
+      return {
+        ...JSON.parse(product),
+        quantity: quantity[index],
+      };
+    });
+    GameStoreServices.updateOrder(id, userId, status, (err) => {
+      if (err) return res.status(500).send("Error al actualizar la orden");
+      GameStoreServices.deleteOrderItems(id, (err) => {
+        if (err) return res.status(500).send("Error al eliminar los productos");
+        GameStoreServices.addOrderItems(id, items, (err) => {
+          if (err) return res.status(500).send("Error al agregar los productos");
+          res.redirect(`/orders`);
+        });
+      })
+    });
+  },
+  deleteOrder: (req, res) => {
+    const { id } = req.params;
+    GameStoreServices.deleteOrder(id, (err) => {
+      if (err) return res.status(500).send("Error al eliminar la orden");
+      GameStoreServices.deleteOrderItems(id, (err) => {
+        if (err) return res.status(500).send("Error al eliminar los productos");
+        res.redirect(`/orders`);
+      })
+    });
+  },
   getOrdersByUserId: (req, res) => {
     const { id } = req.params;
     GameStoreServices.getOrdersByUserId(id, (err, orders) => {
@@ -242,12 +272,12 @@ const GameStoreController = {
         if (err) return res.status(500).send("Error al obtener los productos");
         GameStoreServices.getOrder(id, (err, order) => {
           if (err) return res.status(500).send("Error al obtener la orden");
-          GameStoreServices.getOrderItems(order.id, (err, items) => {
+          GameStoreServices.getOrderItemsByOrderId(order.id, (err, items) => {
             if (err)
               return res
                 .status(500)
                 .send("Error al obtener los productos de la orden");
-                console.log( "Items de la orden:", order.userId, items);
+                console.log( "Items de la orden:", order.id, items);
                 res.render("editOrder", { title: "Editar Orden", order, users, products, items });
           });
         });

@@ -141,7 +141,27 @@ const GameStoreServices = {
       callback(null, this.lastID);
     });
   },
-
+  deleteOrderItems: (orderId, callback) => {
+    const query = "DELETE FROM orderItems WHERE orderId = ?";
+    db.run(query, [orderId], function (err) {
+      if (err) return callback(err);
+      callback(null, this.changes);
+    });
+  },
+  updateOrder: (orderId, userId, status, callback) => {
+    const query = "UPDATE orders SET userId = ?, status = ? WHERE id = ?";
+    db.run(query, [ userId, status, orderId], function (err) {
+      if (err) return callback(err);
+      callback(null, this.changes);
+    });
+  },
+  deleteOrder: (orderId, callback) => {
+    const query = "DELETE FROM orders WHERE id = ?";
+    db.run(query, [orderId], function (err) {
+      if (err) return callback(err);
+      callback(null, this.changes);
+    });
+  },
   addOrderItems: (orderId, items, callback) => {
     console.log("orderId:", orderId);
     const query =

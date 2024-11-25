@@ -1,5 +1,5 @@
 <div class="container">
-  <form action="/api/edit" method="POST">
+  <form action="/api/editOrder/<%= order.id %>" method="POST">
     <div class="container-border" style="width: 100%; margin: auto">
       <div class="container-form">
         <div class="section">
@@ -51,8 +51,8 @@
           <label for="products">Productos</label>
           <div id="products-container" style="margin: 20px 0px">
             <!-- Contenedor dinámico para productos -->
-            <div class="row product-row">
-              <% items.forEach((item) => { %>
+            <% items.forEach((item) => { %>
+            <div class="row product-row mt-2">
               <div class="col-7">
                 <select name="dataProducts[]" class="form-control">
                   <% products.forEach((product) => { %>
@@ -84,8 +84,8 @@
                   ✖
                 </button>
               </div>
-              <% }) %>
             </div>
+            <% }) %>
           </div>
         </div>
       </div>
