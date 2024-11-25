@@ -1,0 +1,148 @@
+<div class="container">
+  <form action="/api/edit" method="POST">
+    <div class="container-border" style="width: 100%; margin: auto">
+      <div class="container-form">
+        <div class="section">
+          <h1 class="text-center">Crear Orden</h1>
+          <hr style="background-color: gold" />
+          <div class="form-group">
+            <label for="userId">Usuario</label>
+            <select name="userId" id="userId" class="form-control">
+              <% users.forEach((user) => { %>
+              <option value="<%= user.id %>" <%= order.userId == user.id ? 'selected' : '' %>>
+                <%= user.username %> | <%= user.email %>
+              </option>
+              <% }) %>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="status">Estado</label>
+            <select name="status" id="status" class="form-control">
+              <option value="Pendiente" <%= order.status == 'Pendiente' ? 'selected' : '' %>>Pendiente</option>
+              <option value="Enviado" <%= order.status == 'Enviado' ? 'selected' : '' %>>Enviado</option>
+              <option value="Entregado" <%= order.status == 'Entregado' ? 'selected' : '' %>>Entregado</option>
+              <option value="Cancelado"   <%= order.status == 'Cancelado' ? 'selected' : '' %>>Cancelado</option>
+            </select>
+          </div>
+          <div class="form-group" style="margin: 20px 0px">
+            <button
+              type="button"
+              id="add-product"
+              class="btn btn-secondary btn-sm mt-2"
+            >
+              Añadir Producto
+            </button>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <button
+                type="submit"
+                class="btn btn-primary btn-block"
+                style="width: 100%"
+              >
+                Guardar
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="section" style="background-color: #0b0b0bb9">
+          <h1 class="text-center">Items</h1>
+          <hr style="background-color: gold" />
+          <label for="products">Productos</label>
+          <div id="products-container" style="margin: 20px 0px">
+            <!-- Contenedor dinámico para productos -->
+            <div class="row product-row">
+              <% items.forEach((item) => { %>
+              <div class="col-7">
+                <select name="dataProducts[]" class="form-control">
+                  <% products.forEach((product) => { %>
+                  <option
+                    value='{"productId": <%= product.id %>, "unitPrice": <%= product.price %>}'
+                    <%= item.productId == product.id ? 'selected' : '' %>
+                  >
+                    <%= product.name %> - $<%= product.price %>
+                  </option>
+                  <% }) %>
+                </select>
+              </div>
+              <div class="col-4">
+                <input
+                  type="number"
+                  name="quantity[]"
+                  class="form-control"
+                  placeholder="Cantidad"
+                  min="1"
+                  value="<%= item.quantity %>"
+                  required
+                />
+              </div>
+              <div class="col-1 text-end">
+                <button
+                  type="button"
+                  class="btn btn-danger btn-sm remove-product"
+                >
+                  ✖
+                </button>
+              </div>
+              <% }) %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<script>
+  let productIndex = 1; // Inicializamos un índice para los productos
+
+  document.getElementById("add-product").addEventListener("click", () => {
+    const productsContainer = document.getElementById("products-container");
+
+    // Crear una nueva fila para los productos
+    const newRow = document.createElement("div");
+    newRow.className = "row product-row mt-2";
+
+    newRow.innerHTML = `
+        <div class="col-7">
+          <select name="dataProducts[]" class="form-control">
+            <% products.forEach((product) => { %>
+            <option value='{"productId": <%= product.id %>, "unitPrice": <%= product.price %>}'>
+              <%= product.name %> - $<%= product.price %>
+            </option>
+            <% }) %>
+          </select>
+        </div>
+        <div class="col-4">
+          <input
+            type="number"
+            name="quantity[]"
+            class="form-control"
+            placeholder="Cantidad"
+            min="1"
+            required
+          />
+        </div>
+              <div class="col-1 text-end">
+        <button
+          type="button"
+          class="btn btn-danger btn-sm remove-product"
+        >
+          ✖
+        </button>
+      </div>
+      `;
+
+    productsContainer.appendChild(newRow);
+    productIndex++; // Incrementar el índice
+  });
+  // Eliminar un producto
+  document
+    .getElementById("products-container")
+    .addEventListener("click", (e) => {
+      if (e.target.classList.contains("remove-product")) {
+        const productRow = e.target.closest(".product-row");
+        productRow.remove();
+      }
+    });
+</script>

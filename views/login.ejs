@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Font Awesome para los iconos -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+      rel="stylesheet"
+    />
+    <!-- Bootstrap Bundle con Popper -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+      defer
+    ></script>
+    <link rel="stylesheet" href="/styles.css" />
+    <style>
+      label {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        color: #fff9e5;
+      }
+      .form-group {
+        margin-bottom: 30px;
+      }
+      .btn-primary {
+        width: 60%;
+        border-radius: 4px;
+        border: none;
+        background-color: #c19e00;
+        color: #ffffff;
+      }
+      .form-control {
+        padding: 10px 25px;
+        border-radius: 15px;
+        color: white;
+      }
+
+      .form-control:focus {
+        border-color: #c19e00;
+        background-color: rgba(255, 255, 255, 0.341);
+        box-shadow: none;
+      }
+
+      .form-control::placeholder {
+        color: #ffffff6b;
+        font-size: 15px;
+        font-weight: 100;
+      }
+      p {
+        color: #fff9e5;
+        margin: 0px;
+      }
+      a {
+        color: #c19e00;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body style="background-color: #121212">
+    <div class="container">
+      <form action="/login" method="POST">
+        <div class="container-border" style="width: 70%">
+          <div
+            class="container-form"
+            style="
+              background-image: url('/uploads/login.png');
+              background-size: 45%;
+            "
+          >
+            <div class="col-5" style="background-color: transparent"></div>
+            <div
+              class="col-7"
+              style="
+                padding: 10%;
+                backdrop-filter: blur(20px);
+                background-color: #121212c5;
+              "
+            >
+              <h1 class="text-center">Iniciar sesión</h1>
+              <br />
+              <div class="form-group">
+                <label for="username">Nombre de usuario:</label>
+                <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  class="form-control"
+                  placeholder="Escribe tu nombre de usuario"
+                  required
+                  style="color: white; font-weight: 100"
+                />
+              </div>
+              <div class="form-group">
+                <label for="password">Contraseña:</label>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  class="form-control"
+                  placeholder="Escribe tu contraseña"
+                  style="color: white; font-weight: 100"
+                  required
+                />
+              </div>
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary">
+                  Iniciar sesión
+                </button>
+              </div>
+              <br />
+              <div class="d-flex flex-column">
+                <p>¿Aun no tienes una cuenta?</p>
+                <a href="/register">Registrate</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

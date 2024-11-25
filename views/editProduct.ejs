@@ -1,0 +1,210 @@
+<div class="container">
+  <form
+    action="/api/editProduct/<%= product.id %>"
+    method="POST"
+    enctype="multipart/form-data"
+  >
+    <div class="container-border">
+      <div class="container-form">
+        <div class="section">
+          <h1 class="text-center">Editar producto</h1>
+          <hr />
+          <input
+            type="hidden"
+            name="currentThumbnail"
+            value="<%= product.thumbnail %>"
+          />
+          <input
+            type="hidden"
+            name="currentImage1"
+            value="<%= product.image1 %>"
+          />
+          <input
+            type="hidden"
+            name="currentImage2"
+            value="<%= product.image2 %>"
+          />
+          <div class="form-group">
+            <label for="code">Código:</label>
+            <input
+              type="text"
+              id="code"
+              name="code"
+              class="form-control"
+              style="width: 20%; min-width: 30px"
+              value="<%= product.code %>"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="name">Nombre:</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              class="form-control"
+              style="width: 90%; min-width: 30px"
+              value="<%= product.name %>"
+              required
+            />
+          </div>
+          <div style="display: flex">
+            <div class="form-group">
+              <label for="price">Precio:</label>
+              <input
+                type="number"
+                id="price"
+                name="price"
+                class="form-control"
+                style="width: 90%"
+                step="0.01"
+                value="<%= product.price %>"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="stock">Stock:</label>
+              <input
+                type="number"
+                id="stock"
+                name="stock"
+                class="form-control"
+                style="width: 60%"
+                value="<%= product.stock %>"
+                required
+              />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="description">Descripción:</label>
+            <textarea
+              id="description"
+              name="description"
+              class="form-control"
+              required
+            >
+<%= product.description %></textarea
+            >
+          </div>
+          <div class="row" style="margin-top: 15px">
+            <div class="col-5">
+              <div class="form-group">
+                <label for="size">Tamaño:</label>
+                <input
+                  type="number"
+                  id="size"
+                  name="size"
+                  class="form-control"
+                  step="0.01"
+                  style="width: 90%; min-width: 30px"
+                  value="<%= product.size %>"
+                  placeholder="00.00 MB"
+                  required
+                />
+              </div>
+            </div>
+            <div class="col-5">
+              <div class="form-group">
+                <label for="classification">Clasificacion:</label>
+                <select
+                  name="classification"
+                  id="classification"
+                  class="form-control"
+                >
+                  <option value="E" <%= product.classification == 'E' ? 'selected' : '' %>>E</option>
+                  <option value="E 10+" <%= product.classification == 'E 10+' ? 'selected' : '' %>>E 10+</option>
+                  <option value="T" <%= product.classification == 'T' ? 'selected' : '' %>>T</option>
+                  <option value="M" <%= product.classification == 'M' ? 'selected' : '' %>>M</option>
+                  <option value="A" <%= product.classification == 'A' ? 'selected' : '' %>>A</option>
+                  <option value="RP" <%= product.classification == 'RP' ? 'selected' : '' %>>RP</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="category">Category</label>
+            <select name="category" id="category" class="form-control">
+              <% categories.forEach((category) => { %>
+              <option value="<%= category.id %>" <%= product.category_id == category.id ? 'selected' : '' %>>
+                <%= category.name %>
+              </option>
+              <% }) %>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">
+            Guardar Cambios
+          </button>
+        </div>
+
+        <div class="section"  style="background-color: #0b0b0bb9">
+          <hr>
+          <div class="form-group">
+            <label for="thumbnail">Miniatura:</label>
+            <div class="row">
+              <div class="col-3">
+                <img
+                  src="/uploads/<%= product.thumbnail %>"
+                  alt="Miniatura"
+                  style="width: 100px"
+                />
+              </div>
+              <div class="col-9">
+                <input
+                  type="file"
+                  id="thumbnail"
+                  name="thumbnail"
+                  class="form-group"
+                  accept="image/*"
+                />
+              </div>
+            </div>
+          </div>
+          <hr>
+          <div class="form-group">
+            <label for="image1">Imagen 1:</label>
+            <div class="row">
+              <div class="col-3">
+              <img
+                src="/uploads/<%= product.image1 %>"
+                alt="Imagen 1"
+                style="width: 100px"
+              />
+              </div>
+              <div class="col-9">
+              <input
+                type="file"
+                id="image1"
+                name="image1"
+                class="form-group"
+                accept="image/*"
+              />
+              </div>
+            </div>
+          </div>
+          <hr>
+          <div class="form-group">
+            <label for="image2">Imagen 2 actual:</label>
+            <div class="row">
+              <div class="col-3">
+            <img
+              src="/uploads/<%= product.image2 %>"
+              alt="Imagen 2"
+              style="width: 100px"
+            />
+              </div>
+              <div class="col-9">
+            <input
+              type="file"
+              id="image2"
+              name="image2"
+              class="form-group"
+              accept="image/*"
+            />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

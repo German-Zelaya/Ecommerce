@@ -1,0 +1,49 @@
+<div class="container-border">
+  <div class="container-table">
+    <h1 class="text-center">Lista de Usuarios</h1>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Nombre</th>
+          <th scope="col">Correo</th>
+          <th scope="col">Rol</th>
+          <th scope="col">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% users.forEach(function(user) { %>
+        <tr>
+          <td><%= user.username %></td>
+          <td><%= user.email %></td>
+          <td><%= user.rol == 1 ? "Administrador" : "Usuario" %></td>
+          <td>
+            <a href="api/editUser/<%= user.id %>" class="btn btn-warning btn-sm"
+              >Editar</a
+            >
+            <form
+              action="api/deleteUser/<%= user.id %>"
+              method="POST"
+              style="display: inline"
+            >
+              <button type="submit" class="btn btn-danger btn-sm">
+                Eliminar
+              </button>
+            </form>
+          </td>
+        </tr>
+        <% }); %>
+      </tbody>
+    </table>
+    <a
+      href="api/createUser"
+      class="btn btn-warning btn-sm"
+      style="
+        color: white;
+        padding: 10px;
+        background-color: #ba9515;
+        border: none;
+      "
+      >+ Nuevo Usuario</a
+    >
+  </div>
+</div>

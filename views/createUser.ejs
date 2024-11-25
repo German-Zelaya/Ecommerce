@@ -1,0 +1,130 @@
+<!-- <form action="/api/createUser" method="POST">
+  <div class="container-border">
+    <div class="container-form" style="display: block; padding: 30px">
+      <h1 class="text-center">Crear Usuario</h1>
+      <hr />
+
+      <div class="row">
+        <div class="col-4">
+          <div class="form-group">
+            <label for="username">Nombre:</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              class="form-control"
+              style="width: 90%; min-width: 30px"
+              placeholder="Nombre"
+              required
+            />
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-group">
+            <label for="password">Contraseña:</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              class="form-control"
+              step="0.01"
+              style="width: 90%; min-width: 30px"
+              placeholder="********"
+              required
+            />
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-group">
+            <label for="rol">Rol:</label>
+            <select name="rol" id="rol" class="form-control">
+              <option value="0">Usuario</option>
+              <option value="1">Administrador</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <br />
+      <div class="row">
+        <div class="col-6">
+          <button type="submit" class="btn btn-primary btn-block">Crear</button>
+        </div>
+        <div class="col-6">
+          <a href="/users" class="btn btn-danger btn-sm" style="width: 100%"
+            >Cancelar</a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</form> -->
+<div class="container">
+  <form action="/api/createUser" method="POST">
+    <div class="container-border">
+      <div class="container-form" style="display: block; padding: 30px">
+        <h1 class="text-center">Crear Usuario</h1>
+        <hr />
+        <div class="row">
+          <div class="col-3">
+            <div class="form-group">
+              <label for="username">Usuario:</label>
+              <input
+                class="form-control"
+                type="text"
+                id="username"
+                name="username"
+                required
+              />
+            </div>
+          </div>
+          <div class="col-3">
+            <div class="form-group">
+              <label for="email">email:</label>
+              <input
+                class="form-control"
+                type="email"
+                id="email"
+                name="email"
+                required
+              />
+            </div>
+          </div>
+          <div class="col-3">
+            <div class="form-group">
+              <label for="password">Contraseña:</label>
+              <input
+                class="form-control"
+                type="password"
+                id="password"
+                name="password"
+                required
+              />
+            </div>
+          </div>
+          <div class="col-3">
+            <div class="form-group">
+              <label for="rol">Rol:</label>
+              <select class="form-control" id="rol" name="rol" required>
+                <option value="0">Usuario</option>
+                <option value="1">Administrador</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <br />
+        <div class="row">
+          <div class="col-6">
+            <button class="btn btn-primary btn-block" type="submit">
+              Crear
+            </button>
+          </div>
+          <div class="col-6">
+            <a href="/users" class="btn btn-danger btn-sm" style="width: 100%"
+              >Cancelar</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

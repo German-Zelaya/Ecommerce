@@ -1,0 +1,128 @@
+<div class="productcontainer">
+  <div
+    class="transparent-gradient"
+    style="
+      width: 100%;
+      height: 700px;
+      background-image: linear-gradient(to bottom, #00000000, #191815),
+        url('/uploads/<%= product.image2 %>');
+      background-size: 100%;
+      background-repeat: repeat;
+      padding-top: 250px;
+    "
+  >
+    <div class="detailscontainer">
+      <div class="card w-100">
+        <div class="row g-0 align-items-top">
+          <div class="col-md-2">
+            <img
+              src="/uploads/<%= product.thumbnail %>"
+              class="img-fluid"
+              style="border-radius: 5px; border: 0.5px solid #844d00"
+              alt="..."
+            />
+          </div>
+          <div
+            class="col-md-8"
+            style="background-color: transparent; border-radius: 0%"
+          >
+            <div class="card-body d-flex">
+              <div class="d-flex flex-column">
+                <h5 class="display-1"><%= product.name %></h5>
+                <p class="display-2"><%= product.updateAt %></p>
+                <div class="d-flex flex-row" style="margin: 15px">
+                  <p class="display-3">
+                    <strong><%= product.size %>MB</strong>
+                    <br />
+                    Tamaño
+                  </p>
+                  <div
+                    style="
+                      background-color: rgb(88, 88, 88);
+                      width: 1px;
+                      height: 100%;
+                      margin: 0px 15px;
+                    "
+                  ></div>
+                  <p class="display-3">
+                    <strong><%= product.stock %></strong>
+                    <br />
+                    Stock
+                  </p>
+                  <div
+                    style="
+                      background-color: rgb(88, 88, 88);
+                      width: 1px;
+                      height: 100%;
+                      margin: 0px 15px;
+                    "
+                  ></div>
+                  <p class="display-3">
+                    <strong><%= product.classification %></strong>
+                    <br />
+                    Clasificación
+                  </p>
+                </div>
+                <p class="display-2"><%= product.description %></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex flex-row col-12 justify-content-between">
+        <div></div>
+        <div
+          class="btn-group"
+          style="text-align: left"
+          role="group"
+          aria-label="Basic example"
+        >
+          <button
+            type="button"
+            class="btn btn-primary"
+            style="background-color: black; border: none"
+          >
+            <p class="display-2" style="font-size: 15px; margin: 3px">
+              <%= product.price %> USD
+            </p>
+          </button>
+          <button
+            type="button"
+            class="btn btn-secondary add-to-cart"
+            style="background-color: #0074e4; border: none"
+            data-id="<%= product.id %>"
+            data-name="<%= product.name %>"
+            data-price="<%= product.price %>"
+          >
+            <p class="display-2" style="font-size: 15px; margin: 3px">
+              Añadir al carrito
+            </p>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  document.querySelectorAll(".add-to-cart").forEach((button) => {
+    button.addEventListener("click", () => {
+      const productId = button.dataset.id;
+      const name = button.dataset.name;
+      const price = button.dataset.price;
+
+      fetch("/cart/add", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ productId, name, price }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.success) {
+            alert("Producto añadido al carrito");
+          } else {
+            alert("Hubo un error al añadir el producto");
+          }
+        });
+    });
+  });
+</script>

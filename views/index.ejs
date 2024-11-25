@@ -1,0 +1,147 @@
+<div class="container">
+  <div class="carousel slide" id="newscarousel">
+    <div class="carousel-inner">
+      <% for (let i = 0; i < 4; i++) { %>
+      <div
+        class="carousel-item <%= products[i].image1 == products[0].image1 ? 'active' : '' %>"
+      >
+        <a href="/product/<%= products[i].id %>">
+          <img
+            src="/uploads/<%= products[i].image1 %>"
+            class="d-block w-100"
+            alt="..."
+          />
+        </a>
+      </div>
+      <% } %>
+    </div>
+    <button
+      class="carousel-control-prev"
+      type="button"
+      data-bs-target="#newscarousel"
+      data-bs-slide="prev"
+      style="left: -5%"
+    >
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button
+      class="carousel-control-next"
+      type="button"
+      data-bs-target="#newscarousel"
+      data-bs-slide="next"
+      style="right: 7%"
+    >
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+    <div class="carousel-indicators">
+      <% for (let i = 0; i < 4; i++) { %>
+      <button
+        type="button"
+        data-bs-target="#newscarousel"
+        data-bs-slide-to="<%= i %>"
+        class="<%= products[i].image1 == products[0].image1 ? 'active' : '' %>"
+      >
+        <img
+          src="/uploads/<%= products[i].image1 %>"
+          class="d-block w-100"
+          alt="..."
+        />
+        <span style="display: inline"> <%= products[i].name %> </span>
+      </button>
+      <% } %>
+    </div>
+  </div>
+
+  <div class="sale-bar">
+    <h6 style="padding: 0px 2%">OFERTAS</h6>
+    <div class="owl-carousel owl-theme" style="padding: 10px">
+      <% products.sort((a, b) => a.price - b.price).forEach((product) => { %>
+      <div class="item">
+        <div class="card border-0">
+          <a href="/product/<%= product.id %>">
+            <img
+              src="/uploads/<%= product.thumbnail %>"
+              alt=""
+              class="card-img-top"
+              height="450px"
+            />
+          </a>
+          <div
+            class="card-body d-flex justify-content-between align-items-center"
+          >
+            <div class="d-flex flex-column">
+              <span class="display-6"><%= product.name %></span>
+              <span class="display-6">$<%= product.price %></span>
+            </div>
+            <button
+              class="btn btn-primary add-to-cart"
+              data-id="<%= product.id %>"
+              data-name="<%= product.name %>"
+              data-price="<%= product.price %>"
+            >
+              <i
+                style="color: white"
+                class="fas fa-shopping-cart"
+                title="Carrito"
+              ></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <% }) %>
+    </div>
+  </div>
+</div>
+
+<!-- Option 1: Bootstrap Bundle with Popper -->
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"
+  integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw=="
+  crossorigin="anonymous"
+></script>
+<script>
+  $(".owl-carousel").owlCarousel({
+    loop: true,
+    margin: 40,
+    nav: true,
+    dots: false,
+    navText: [
+      "<h1 style='color: white'><</h1>",
+      "<h1 style='color: white'>></h1>",
+    ],
+    responsive: {
+      0: {
+        items: 1,
+      },
+      600: {
+        items: 2,
+      },
+      1000: {
+        items: 3,
+      },
+    },
+  });
+  document.querySelectorAll(".add-to-cart").forEach((button) => {
+    button.addEventListener("click", () => {
+      const productId = button.dataset.id;
+      const name = button.dataset.name;
+      const price = button.dataset.price;
+
+      fetch("/cart/add", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ productId, name, price }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.success) {
+            alert("Producto añadido al carrito");
+          } else {
+            alert("Hubo un error al añadir el producto");
+          }
+        });
+    });
+  });
+</script>

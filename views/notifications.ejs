@@ -1,0 +1,51 @@
+<div class="container">
+  <% orders.forEach((order) => { %>
+  <div class="notificationcontainer">
+    <div class="card w-100">
+      <div class="row g-0 align-items-top">
+        <div class="col-md-12">
+          <div class="card-body d-flex">
+            <div class="d-flex flex-column">
+              <h5 class="display-1">Para: <%= order.username %></h5>
+              <p class="display-2"><%= order.email %></p>
+              <div class="d-flex flex-row" style="margin: 15px">
+                <p class="display-3">
+                  <strong><%= order.date %></strong>
+                  <br />
+                  Fecha del Pedido
+                </p>
+                <div
+                  style="
+                    background-color: gold;
+                    width: 1px;
+                    height: 100%;
+                    margin: 0px 15px;
+                  "
+                ></div>
+                <p class="display-3">
+                  <strong><%= order.status %></strong>
+                  <br />
+                  Estado
+                </p>
+              </div>
+              <p class="display-2">
+                <%= order.status == "Pendiente" ? "El pedido con el id: " + order.id + " esta siendo procesado y se le informara de cualquier cambio a la brevedad posible" 
+                : "La orden con el id: " + order.id + " ha sido entregada, gracias por su compra" %>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <% if (order.status == "Entregado") { %>
+      <div class="card-footer text-align-right">
+        <a href="/bill/<%= order.id %>">
+          <button type="button" class="btn btn-primary" onclick="">
+            Generar Factura
+          </button>
+        </a>
+      </div>
+      <% } %>
+    </div>
+  </div>
+  <% }) %>
+</div>

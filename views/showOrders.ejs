@@ -1,0 +1,53 @@
+<div class="container-border">
+  <div class="container-table">
+    <h1 class="text-center">Lista de Pedidos</h1>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Usuario</th>
+          <th scope="col">Email</th>
+          <th scope="col">Fecha</th>
+          <th scope="col">Estado</th>
+          <th scope="col">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% orders.forEach(function(order) { %>
+        <tr>
+          <td><%= order.username %></td>
+          <td><%= order.email %></td>
+          <td><%= order.date %></td>
+          <td><%= order.status %></td>
+          <td>
+            <a
+              href="/api/editOrder/<%= order.id %>"
+              class="btn btn-warning btn-sm"
+              >Editar</a
+            >
+            <form
+              action="/api/deleteOrder/<%= order.id %>"
+              method="POST"
+              style="display: inline"
+            >
+              <button type="submit" class="btn btn-danger btn-sm">
+                Eliminar
+              </button>
+            </form>
+          </td>
+        </tr>
+        <% }); %>
+      </tbody>
+    </table>
+    <a
+      href="api/createOrder"
+      class="btn btn-warning btn-sm"
+      style="
+        color: white;
+        padding: 10px;
+        background-color: #ba9515;
+        border: none;
+      "
+      >+ Nuevo Pedido</a
+    >
+  </div>
+</div>

@@ -1,0 +1,253 @@
+<div class="container">
+  <div class="row">
+    <div class="cartcontainer col-9">
+      <% items.forEach((item) => { %>
+      <div class="card w-100">
+        <div class="row g-0 align-items-center">
+          <div class="col-md-2">
+            <img
+              src="/uploads/<%= item.thumbnail %>"
+              class="img-fluid"
+              style="height: 150px"
+              alt="..."
+            />
+          </div>
+          <div
+            class="col-md-10 align-items-center"
+            style="background-color: transparent; border-radius: 0%"
+          >
+            <div class="card-body d-flex justify-content-between">
+              <div class="d-flex flex-column col-4">
+                <h5 class="display-1"><%= item.name %></h5>
+                <p class="display-2"><%= item.description %></p>
+              </div>
+              <p class="card-text"><%= item.quantity %></p>
+              <div class="d-flex flex-row">
+                <p class="btn btn-secondary">$<%= item.price %></p>
+                <form
+                  action="/cart/remove"
+                  method="POST"
+                  style="margin: 0; padding: 0"
+                >
+                  <input
+                    type="hidden"
+                    name="itemId"
+                    value="<%= item.itemId %>"
+                  />
+                  <button
+                    type="submit"
+                    class="btn btn-danger"
+                    style="height: fit-content"
+                  >
+                    Eliminar
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <% }) %>
+    </div>
+    <div class="summary col-3">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Resumen del Pedido</h5>
+          <hr />
+          <p class="card-text"><strong>Subtotal:</strong> $<%= total %></p>
+          <p class="card-text">
+            <strong>Impuestos:</strong> $<%= (total * 0.1).toFixed(2) %>
+            <!-- Impuesto estimado -->
+          </p>
+          <hr />
+          <p class="card-text">
+            <strong>Total Estimado:</strong>
+            <span style="color: green">$<%= (total * 1.1).toFixed(2) %></span>
+          </p>
+          <button
+            type="button"
+            class="btn btn-success btn-block"
+            data-bs-toggle="modal"
+            data-bs-target="#paymentModal"
+          >
+            Proceder al Pago
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="paymentModal"
+  tabindex="-1"
+  aria-labelledby="paymentModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg" style="width: 1000px">
+    <div class="modal-content">
+      <!-- Formulario de pago -->
+      <form action="/api/order" method="POST">
+        <div class="container-border" style="width: 100%; margin: auto">
+          <div class="container-form">
+            <div class="section">
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                style="--bs-btn-close-color: #fff"
+              ></button>
+              <h1 class="text-center">Pago</h1>
+              <hr style="background-color: gold" />
+              <div class="form-group">
+                <label for="method">Pago con:</label><br />
+                <div class="form-check form-check-inline">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="method"
+                    id="QR"
+                    value="QR"
+                  />
+                  <label class="form-check-label" for="QR">QR</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="method"
+                    id="whatsapp"
+                    value="whatsapp"
+                    checked
+                  />
+                  <label class="form-check-label" for="whatsapp"
+                    >Whatsapp</label
+                  >
+                </div>
+              </div>
+              <input type="hidden" name="amount" value="<%= total * 1.1 %>" />
+              <input type="hidden" name="userId" value="<%= user.id %>" />
+              <div id="imageContent" style="text-align: center; padding: 20px">
+                <img
+                  src="/uploads/QR.webp"
+                  alt="Imagen Ejemplo"
+                  class="img-fluid"
+                />
+              </div>
+              <div id="linkContent" style="margin: 20px; text-align: center">
+                <img
+                  src="/uploads/logo.png"
+                  alt="Imagen Ejemplo"
+                  class="img-fluid"
+                />
+                <a
+                  href="https://chat.whatsapp.com/FG3dXcVyfiH627B0wuPg5j"
+                  class="btn btn-link"
+                  >Contactanos a travez del grupo de Whatsapp</a
+                >
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <button
+                    type="submit"
+                    class="btn btn-primary btn-block"
+                    style="width: 100%"
+                  >
+                    Pagar <%= (total * 1.1).toFixed(2) %> USD
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="section" style="background-color: #0b0b0bb9">
+              <h1 class="text-center">Resumen</h1>
+              <hr style="background-color: gold" />
+              <% items.forEach((item) => { %>
+              <div class="row align-items-center">
+                <div class="col-3">
+                  <img
+                    src="/uploads/<%= item.thumbnail %>"
+                    alt="Miniatura"
+                    height="60px"
+                  />
+                </div>
+                <div class="col-6">
+                  <p class="text-left" style="color: white"><%= item.name %></p>
+                </div>
+                <div class="col-3">
+                  <p class="text-center" style="color: white">
+                    <%= item.price %> USD
+                  </p>
+                </div>
+              </div>
+              <input
+                type="hidden"
+                name="items[]"
+                value='{"productId": <%= item.id %>, "quantity": <%= item.quantity %>, "unitPrice": <%= item.price %>}'
+              />
+              <hr />
+              <% }) %>
+              <div class="row">
+                <div class="col-6">
+                  <p class="text-left" style="color: white; font-weight: 500">
+                    Subtotal
+                  </p>
+                </div>
+                <div class="col-6">
+                  <p class="text-center" style="color: white">
+                    <%= total %> USD
+                  </p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <p class="text-left" style="color: white; font-weight: 500">
+                    Impuestos
+                  </p>
+                </div>
+                <div class="col-6">
+                  <p class="text-center" style="color: white">
+                    <%= (total * 0.1).toFixed(2) %> USD
+                  </p>
+                </div>
+              </div>
+              <hr />
+              <div class="row">
+                <div class="col-6">
+                  <p class="text-left" style="color: white; font-weight: 500">
+                    Total
+                  </p>
+                </div>
+                <div class="col-6">
+                  <p class="text-center" style="color: white">
+                    <%= (total * 1.1).toFixed(2) %> USD
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const radioButtons = document.querySelectorAll('input[name="method"]');
+    const imageContent = document.getElementById("imageContent");
+    const linkContent = document.getElementById("linkContent");
+
+    radioButtons.forEach((radio) => {
+      radio.addEventListener("change", function () {
+        if (this.value === "QR") {
+          imageContent.style.display = "block";
+          linkContent.style.display = "none";
+        } else if (this.value === "whatsapp") {
+          imageContent.style.display = "none";
+          linkContent.style.display = "block";
+        }
+      });
+    });
+  });
+</script>
